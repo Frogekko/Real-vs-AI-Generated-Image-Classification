@@ -32,7 +32,7 @@ for filename in tqdm(image_files, desc="Checking images", unit="image"):
         print('Bad file:', filename) # print out the names of corrupt files
         bad_images.append(filename)
 
-with open(f"list_of_bad_images.txt", "w") as file:
+with open("list_of_bad_images.txt", "w") as file:
     for img in bad_images:
-        file.write(img + '\n')
+        file.write(file_path+' '+img+'\n')
     file.close()
