@@ -3,18 +3,21 @@
 Created on Tue Apr 29 12:10:12 2025
 
 @author: Fredrik
+
+Remember to change the input_folder,output_folder and file_path so it fits to where you have saved the dataset
 """
 from preprocessing import resizer
-from bad_img_detector import bad_images
+from bad_img_detector import bad_images, bad_img_lsit
+from model_training import training_from_scratch
 
 # input_folder and output_folder will be the directory containing the images to resize
 def prepmain():
     print("Hello, you can preprocess you'r dataset of images here")
     while True:
-        print("Would you like to look for 'bad images' or 'resize'? ")
         print("\nMain Menu:")
         print("1. Look for bad images")
         print("2. Resize images from the dataset")
+        print("3. Train the model")
         print("0. Exit")
         choice = input("Enter your choice as int: ")
         if choice == "2":
@@ -23,7 +26,7 @@ def prepmain():
                 print("2. prep train fake")
                 print("3. prep test real")
                 print("4. prep test fake")
-                print("5. end task")
+                print("0. Exit")
                 sec_choice = input("Enter your choice as int: ")
                 
                 if sec_choice == "1":
@@ -42,7 +45,7 @@ def prepmain():
                     input_folder = 'C:/Users/Fredrik/MLEksamen/test/fake'
                     output_folder = 'C:/Users/Fredrik/MLEksamen/resized_test/resized_fake'
                     resizer(input_folder, output_folder)
-                elif sec_choice == "5":
+                elif sec_choice == "0":
                     break
                 else:
                     print("Please enter a valid choice")
@@ -54,7 +57,8 @@ def prepmain():
                 print("2. bad images train fake")
                 print("3. bad images test real")
                 print("4. bad images test fake")
-                print("5. end task")
+                print("5. List of bad images")
+                print("0. Exit")
                 sec_choice = input("Enter your choice as int: ")
                 
                 if sec_choice == "1":
@@ -70,9 +74,25 @@ def prepmain():
                     file_path = 'C:/Users/Fredrik/MLEksamen/test/fake'
                     bad_images(file_path)
                 elif sec_choice == "5":
+                    print(bad_img_lsit)
+                elif sec_choice == "0":
                     break
                 else:
                     print("Please enter a valid choice")
+        elif choice == "3":
+            while True:
+                print("\nModel Traning Menu")
+                print("1. Train the model")
+                print("0. Exit")
+                sec_choice = input("Enter your choice as int: ")
+                if sec_choice == "1":
+                    train_real = 'C:/Users/Fredrik/MLEksamen/resized_train/'
+                    train_fake = 'C:/Users/Fredrik/MLEksamen/resized_train/'
+                    test_real = 'C:/Users/Fredrik/MLEksamen/resized_test/'
+                    test_fake = 'C:/Users/Fredrik/MLEksamen/resized_test/'
+                    training_from_scratch(train_real, train_fake, test_real, test_fake)
+                elif sec_choice == "0":
+                    break
         elif choice == "0":
             break
         
