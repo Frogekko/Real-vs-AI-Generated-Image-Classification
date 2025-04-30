@@ -8,7 +8,7 @@ Remember to change the input_folder,output_folder and file_path so it fits to wh
 """
 from preprocessing import resizer
 from bad_img_detector import bad_images, bad_img_lsit
-from model_training import training_from_scratch
+from model_training import training_from_scratch, testing_model
 
 # input_folder and output_folder will be the directory containing the images to resize
 def prepmain():
@@ -83,14 +83,18 @@ def prepmain():
             while True:
                 print("\nModel Traning Menu")
                 print("1. Train the model")
+                print("2. Test the model")
                 print("0. Exit")
                 sec_choice = input("Enter your choice as int: ")
                 if sec_choice == "1":
-                    train_real = 'C:/Users/Fredrik/MLEksamen/resized_train/'
-                    train_fake = 'C:/Users/Fredrik/MLEksamen/resized_train/'
-                    test_real = 'C:/Users/Fredrik/MLEksamen/resized_test/'
-                    test_fake = 'C:/Users/Fredrik/MLEksamen/resized_test/'
-                    training_from_scratch(train_real, train_fake, test_real, test_fake)
+                    train = 'C:/Users/Fredrik/MLEksamen/resized_train/'
+                    test = 'C:/Users/Fredrik/MLEksamen/resized_test/'
+                    training_from_scratch(train, test)
+                elif sec_choice == "2":
+                    test_data = 'C:/Users/Fredrik/MLEksamen/resized_test/'
+                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/classifier_model.pth'
+                    testing_model(test_data, saved_model)
+                
                 elif sec_choice == "0":
                     break
         elif choice == "0":
