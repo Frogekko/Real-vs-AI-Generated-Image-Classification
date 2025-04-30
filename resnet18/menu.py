@@ -8,7 +8,7 @@ Remember to change the input_folder,output_folder and file_path so it fits to wh
 """
 from preprocessing import resizer
 from bad_img_detector import bad_images, bad_img_lsit
-from model_training import training_from_scratch, testing_model
+from model_training_testing import training_from_scratch, testing_model
 
 # input_folder and output_folder will be the directory containing the images to resize
 def prepmain():
@@ -31,19 +31,19 @@ def prepmain():
                 
                 if sec_choice == "1":
                     input_folder = 'C:/Users/Fredrik/MLEksamen/train/real'
-                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_train/resized_real'
+                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_train/real'
                     resizer(input_folder, output_folder)
                 elif sec_choice == "2":
                     input_folder ='C:/Users/Fredrik/MLEksamen/train/fake'
-                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_train/resized_fake'
+                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_train/fake'
                     resizer(input_folder, output_folder)
                 elif sec_choice == "3":
                     input_folder = 'C:/Users/Fredrik/MLEksamen/test/real'
-                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_test/resized_real'
+                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_test/real'
                     resizer(input_folder, output_folder)
                 elif sec_choice == "4":
                     input_folder = 'C:/Users/Fredrik/MLEksamen/test/fake'
-                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_test/resized_fake'
+                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_test/fake'
                     resizer(input_folder, output_folder)
                 elif sec_choice == "0":
                     break

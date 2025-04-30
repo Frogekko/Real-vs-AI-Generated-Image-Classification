@@ -6,6 +6,7 @@ Created on Tue Apr 29 12:55:27 2025
 
 Model trainig
 """
+import os
 from tqdm import tqdm
 import torch
 from torchvision.models import resnet18
@@ -27,7 +28,6 @@ transforms.Normalize(mean=[0.485, 0.456, 0.406],  # ImageNet means
 ])
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
 model.to(device)
 # =============================================================================
 
@@ -80,13 +80,17 @@ def testing_model(test_data, saved_model):
     model.load_state_dict(torch.load(saved_model, weights_only=False))
     model.eval()
     
+    image_count = 0
     correct = 0
     total = 0
     all_labels =  []
     all_preds = []
+    for root, dirs, files in os.walk(test_data):
+        image_count += len([f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))])
+    print(f"Total images: {image_count}")
     
     with torch.no_grad():
-        for img, labels in test_loader:
+        for img, labels in tqdm(test_loader, desc="Testing model", unit="img"):
             img ,labels = img.to(device), labels.to(device)
             
             outputs = model(img)
