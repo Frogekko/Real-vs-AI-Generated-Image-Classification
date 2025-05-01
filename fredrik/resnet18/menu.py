@@ -83,20 +83,20 @@ def prepmain():
             while True:
                 print("\nModel Traning Menu")
                 print("1. Train the model")
-                print("2. Use the model on the test dataset")
-                print("3. Use the model on the train dataset")
+                print("2. Use the model on the train dataset")
+                print("3. Use the model on the test dataset")
                 print("0. Exit")
                 sec_choice = input("Enter your choice as int: ")
                 if sec_choice == "1":
                     train = 'C:/Users/Fredrik/MLEksamen/resized_train/'
                     train_model(train)
                 elif sec_choice == "2":
-                    test_data = 'C:/Users/Fredrik/MLEksamen/resized_test/'
-                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/resnet18/fredrik/classifier_model.pth'
+                    test_data = 'C:/Users/Fredrik/MLEksamen/resized_train/'
+                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/fredrik/resnet18/classifier_model.pth'
                     testing_testdataset(test_data, saved_model)
                 elif sec_choice == "3":
-                    train = 'C:/Users/Fredrik/MLEksamen/resized_train/'
-                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/resnet18/fredrik/classifier_model.pth'
+                    train = 'C:/Users/Fredrik/MLEksamen/resized_test/'
+                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/fredrik/resnet18/classifier_model.pth'
                     testing_traindataset(train, saved_model)
                 elif sec_choice == "0":
                     break
