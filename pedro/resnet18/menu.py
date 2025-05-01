@@ -88,11 +88,10 @@ def prepmain():
                 sec_choice = input("Enter your choice as int: ")
                 if sec_choice == "1":
                     train = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train'
-                    test = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_test'
-                    training_from_scratch(train, test)
+                    training_from_scratch(train)
                 elif sec_choice == "2":
                     test_data = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_test'
-                    saved_model = 'C:/Users/p2fre/03 - University/03 - Class Repositories/eksamen_ml/Real-vs-AI-Generated-Image-Classification/resnet18/classifier_model.pth'
+                    saved_model = 'C:/Users/p2fre/03 - University/03 - Class Repositories/eksamen_ml/Real-vs-AI-Generated-Image-Classification/pedro/resnet18/classifier_model.pth'
                     testing_model(test_data, saved_model)
                 
                 elif sec_choice == "0":

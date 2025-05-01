@@ -30,20 +30,20 @@ def prepmain():
                 sec_choice = input("Enter your choice as int: ")
                 
                 if sec_choice == "1":
-                    input_folder = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/train/real'
-                    output_folder = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train/resized_real'
+                    input_folder = 'C:/Users/Fredrik/MLEksamen/train/real'
+                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_train/real'
                     resizer(input_folder, output_folder)
                 elif sec_choice == "2":
-                    input_folder ='C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/train/fake'
-                    output_folder = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train/resized_fake'
+                    input_folder ='C:/Users/Fredrik/MLEksamen/train/fake'
+                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_train/fake'
                     resizer(input_folder, output_folder)
                 elif sec_choice == "3":
-                    input_folder = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/test/real'
-                    output_folder = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_test/resized_real'
+                    input_folder = 'C:/Users/Fredrik/MLEksamen/test/real'
+                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_test/real'
                     resizer(input_folder, output_folder)
                 elif sec_choice == "4":
-                    input_folder = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/test/fake'
-                    output_folder = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_test/resized_fake'
+                    input_folder = 'C:/Users/Fredrik/MLEksamen/test/fake'
+                    output_folder = 'C:/Users/Fredrik/MLEksamen/resized_test/fake'
                     resizer(input_folder, output_folder)
                 elif sec_choice == "0":
                     break
@@ -62,16 +62,16 @@ def prepmain():
                 sec_choice = input("Enter your choice as int: ")
                 
                 if sec_choice == "1":
-                    file_path = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/train/real'
+                    file_path = 'C:/Users/Fredrik/MLEksamen/train/real'
                     bad_images(file_path)
                 elif sec_choice == "2":
-                    file_path ='C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/train/fake'
+                    file_path ='C:/Users/Fredrik/MLEksamen/train/fake'
                     bad_images(file_path)
                 elif sec_choice == "3":
-                    file_path = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/test/real'
+                    file_path = 'C:/Users/Fredrik/MLEksamen/test/real'
                     bad_images(file_path)
                 elif sec_choice == "4":
-                    file_path = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/test/fake'
+                    file_path = 'C:/Users/Fredrik/MLEksamen/test/fake'
                     bad_images(file_path)
                 elif sec_choice == "5":
                     print(bad_img_lsit)
@@ -87,12 +87,12 @@ def prepmain():
                 print("0. Exit")
                 sec_choice = input("Enter your choice as int: ")
                 if sec_choice == "1":
-                    train = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train'
-                    
-                    training_from_scratch(train)
+                    train = 'C:/Users/Fredrik/MLEksamen/resized_train/'
+                    test = 'C:/Users/Fredrik/MLEksamen/resized_test/'
+                    training_from_scratch(train, test)
                 elif sec_choice == "2":
-                    test_data = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_test'
-                    saved_model = 'C:/Users/p2fre/03 - University/03 - Class Repositories/eksamen_ml/Real-vs-AI-Generated-Image-Classification/resnet18/classifier_model.pth'
+                    test_data = 'C:/Users/Fredrik/MLEksamen/resized_test/'
+                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/classifier_model.pth'
                     testing_model(test_data, saved_model)
                 
                 elif sec_choice == "0":
