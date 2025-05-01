@@ -9,7 +9,7 @@ Model trainig
 import os
 from tqdm import tqdm
 import torch
-from torchvision.models import resnet18
+from torchvision.models import resnet18, ResNet18_Weights
 from torchvision import transforms, datasets
 import torch.nn as nn
 import torch.optim as optim
@@ -17,8 +17,12 @@ from torch.utils.data import DataLoader
 from sklearn.metrics import classification_report, confusion_matrix
 
 # =============================================================================
-model = resnet18(weights=None)
-model.fc = nn.Linear(model.fc.in_features, 2)
+weights = ResNet18_Weights.IMAGENET1K_V1
+model = resnet18(weights=weights)
+
+num_ftrs = model.fc.in_features
+# Changing the last layer to output 2 classes (real and fake)
+model.fc = nn.Linear(num_ftrs, 2)
 
 
 transform = transforms.Compose([
