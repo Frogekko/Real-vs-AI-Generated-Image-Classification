@@ -8,7 +8,7 @@ Remember to change the input_folder,output_folder and file_path so it fits to wh
 """
 from preprocessing import resizer
 from bad_img_detector import bad_images, bad_img_lsit
-from model_training_testing import training_from_scratch, testing_model
+from model_training_testing import train_model, testing_testdataset, testing_traindataset
 
 # input_folder and output_folder will be the directory containing the images to resize
 def prepmain():
@@ -83,18 +83,21 @@ def prepmain():
             while True:
                 print("\nModel Traning Menu")
                 print("1. Train the model")
-                print("2. Test the model")
+                print("2. Use the model on the test dataset")
+                print("3. Use the model on the train dataset")
                 print("0. Exit")
                 sec_choice = input("Enter your choice as int: ")
                 if sec_choice == "1":
                     train = 'C:/Users/Fredrik/MLEksamen/resized_train/'
-                    test = 'C:/Users/Fredrik/MLEksamen/resized_test/'
-                    training_from_scratch(train, test)
+                    train_model(train)
                 elif sec_choice == "2":
                     test_data = 'C:/Users/Fredrik/MLEksamen/resized_test/'
-                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/classifier_model.pth'
-                    testing_model(test_data, saved_model)
-                
+                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/resnet18/fredrik/classifier_model.pth'
+                    testing_testdataset(test_data, saved_model)
+                elif sec_choice == "3":
+                    train = 'C:/Users/Fredrik/MLEksamen/resized_train/'
+                    saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/resnet18/fredrik/classifier_model.pth'
+                    testing_traindataset(train, saved_model)
                 elif sec_choice == "0":
                     break
         elif choice == "0":
