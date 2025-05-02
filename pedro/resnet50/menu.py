@@ -88,7 +88,7 @@ def prepmain():
                 print("2. Use the model on the train dataset")
                 print("3. Use the model on the test dataset")
                 print("0. Exit")
-                sec_choice = input("Enter your choice as int: ")
+                sec_choice = input("Enter your choice as a number: ")
                 if sec_choice == "1":
                     train = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train'
                     train_model(train)

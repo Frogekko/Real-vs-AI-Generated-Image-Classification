@@ -7,17 +7,13 @@ Created on Tue Apr 29 12:55:27 2025
 Model training and testing script.
 """
 import os
-
 from tqdm import tqdm
-
 import torch
+import timm
+from torchvision import transforms, datasets
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import transforms, datasets
 from torch.utils.data import DataLoader, random_split
-
-import timm
-
 from sklearn.metrics import classification_report, confusion_matrix
 
 # =============================================================================
@@ -25,9 +21,10 @@ model_name = 'xception'
 model = timm.create_model(model_name, pretrained=True, num_classes=2)
 
 transform = transforms.Compose([
-transforms.ToTensor(),  # Converts PIL image to Tensor and scales to [0, 1]
-transforms.Normalize(mean=[0.485, 0.456, 0.406],  # ImageNet means
-                     std=[0.229, 0.224, 0.225])   # ImageNet stds
+    transforms.RandomHorizontalFlip(),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                         std=[0.229, 0.224, 0.225])
 ])
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -41,7 +38,7 @@ def train_model(train):
     train_size = int((1 - val_ratio) * len(train_dataset))
     val_size = len(train_dataset) - train_size
     
-    # The dataset is splitt into train and validation sets
+    # The dataset is split into train and validation sets
     train_dataset, val_dataset = random_split(train_dataset, [train_size, val_size])
     
     train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
@@ -53,13 +50,16 @@ def train_model(train):
     print(f"Classes found: {train_dataset.dataset.classes}")
     
     criterion = nn.CrossEntropyLoss()
-    # Adam is a type of opimization algorithm
-    # model.parameters provides all the parameter of the model that should be uploaded during training.
-    # lr=1e-4 sets the learning rate to 0.0001
-    optimizer = optim.Adam(model.parameters(), lr=1e-4)
+    optimizer = optim.Adam(model.parameters(), lr=1e-4, weight_decay=1e-5)
     
-    # Training loop (the amount would need some testing)
-    for epoch in range(3):
+    # Early stopping parameters
+    patience = 3  # Number of epochs to wait before stopping if no improvement
+    best_val_loss = float('inf')  # Initialize best validation loss
+    epochs_no_improve = 0  # Counter for epochs without improvement
+    save_path = "classifier_model.pth"  # Path to save the best model
+    
+    # Training loop
+    for epoch in range(50):  # Increased max epochs, early stopping will handle termination
         model.train()
         running_loss = 0.0
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}", unit="img"):
@@ -72,13 +72,14 @@ def train_model(train):
             optimizer.step()
             
             running_loss += loss.item()
+        
         # Calculate training loss
         avg_train_loss = running_loss / len(train_loader)
         print(f"Epoch {epoch+1}, Training Loss: {avg_train_loss:.4f}")
         
-        # 
+        # Validation phase
         model.eval()
-        val_loss = 0.0 # Implementing validation loss to better know when to stop the traning
+        val_loss = 0.0
         correct = 0
         total = 0
         with torch.no_grad():
@@ -96,14 +97,27 @@ def train_model(train):
         avg_val_loss = val_loss / len(val_loader)
         val_accuracy = correct / total * 100
         print(f"Epoch {epoch+1}, Validation Loss: {avg_val_loss:.4f}, Validation Accuracy: {val_accuracy:.2f}%")
+        
+        # Early stopping logic
+        if avg_val_loss < best_val_loss:
+            best_val_loss = avg_val_loss
+            epochs_no_improve = 0
+            # Save the model
+            try:
+                torch.save(model.state_dict(), save_path)
+                print(f"Model saved as {save_path} with validation loss: {best_val_loss:.4f}")
+            except Exception as e:
+                print(f"Error saving model: {e}")
+        else:
+            epochs_no_improve += 1
+            print(f"No improvement in validation loss for {epochs_no_improve} epoch(s).")
+        
+        # Check if early stopping is triggered
+        if epochs_no_improve >= patience:
+            print(f"Early stopping triggered after {epoch+1} epochs.")
+            break
     
     print("Training finished")
-    try:
-        save_path = "classifier_model.pth"
-        torch.save(model.state_dict(), save_path)
-        print(f"Model saved as {save_path}")
-    except Exception as e:
-        print(f"Error saving model: {e}")
 
 # =============================================================================
 def testing_traindataset(train, saved_model):
