@@ -16,9 +16,10 @@ from tqdm import tqdm
 
 bad_img_lsit = [] # Stores bad images
 
+# ===========================================================
 def bad_images(file_path):
     
-    warnings.simplefilter('ignore', Image.DecompressionBombWarning) # If you dont trust the dataset you may whant to hash out this.
+    warnings.simplefilter('ignore', Image.DecompressionBombWarning) # If you dont trust the dataset you may want to hash out this.
     Image.MAX_IMAGE_PIXELS = None # Sets the maximum number of pixelse to unlimited
     
     # Get list of image files with full paths
@@ -32,9 +33,11 @@ def bad_images(file_path):
             with Image.open(full_path) as img:
                 img.load() # This is to forcefully load the image to catch the images that verify does not catch
         except (IOError, SyntaxError) as e:
-            print(f"Bad file: {full_path} — {e }") # print out the names of corrupt files
+            print(f"Bad file: {full_path} — {e }") # Prints out the names of corrupt files
             bad_img_lsit.append(full_path)
     
     with open("list_of_bad_images.txt", "w") as file:
         for img in bad_img_lsit:
             file.write(img+'\n')
+
+# ===========================================================

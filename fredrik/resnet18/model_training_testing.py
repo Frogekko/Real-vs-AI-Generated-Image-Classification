@@ -4,7 +4,7 @@ Created on Tue Apr 29 12:55:27 2025
 
 @author: Fredrik
 
-Model trainig
+Model training and testing script.
 """
 import os
 from tqdm import tqdm
@@ -29,8 +29,8 @@ transforms.Normalize(mean=[0.485, 0.456, 0.406],  # ImageNet means
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
-# =============================================================================
 
+# =============================================================================
 def train_model(train):
     val_ratio = 0.2
     # Loading the dataset from their respective image folder.
@@ -180,4 +180,5 @@ def testing_testdataset(test_data, saved_model):
     
     print("\nConfusion Matrix")
     print(confusion_matrix(all_labels, all_preds))
+
 # =============================================================================

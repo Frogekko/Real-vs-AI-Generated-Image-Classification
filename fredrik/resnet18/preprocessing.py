@@ -3,15 +3,14 @@
 Created on Sun Apr 27 23:14:19 2025
 
 @author: Fredrik
+This script resizes images in a specified input folder and saves them to an output folder.
 """
 import os
 from PIL import Image, UnidentifiedImageError
 from tqdm import tqdm
     
-# Preprocessing
 #===========================================================
 # Resizeing images
-
 # Loop through all files in the input folder
 def resizer(input_folder, output_folder):
     
@@ -39,3 +38,5 @@ def resizer(input_folder, output_folder):
                 resized_img.save(output_path)
         except (UnidentifiedImageError, OSError) as e:
             print(f"Skipped corrupted file: {filename}-{e}")
+
+# ===========================================================

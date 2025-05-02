@@ -53,7 +53,7 @@ def training_from_scratch(train):
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
     
     # Training loop (the amount would need some testing)
-    for epoch in range(5):
+    for epoch in range(20):
         model.train()
         running_loss = 0.0
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}"):
