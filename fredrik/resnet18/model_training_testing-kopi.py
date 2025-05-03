@@ -30,12 +30,6 @@ transforms.Normalize(mean=[0.485, 0.456, 0.406],  # ImageNet means
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
-
-train_losses = []
-val_losses = []
-# =============================================================================
-
-
 # =============================================================================
 def train_model(train):
     val_ratio = 0.2
