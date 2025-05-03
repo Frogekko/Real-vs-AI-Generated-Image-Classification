@@ -117,6 +117,8 @@ def loss_graph():
     plt.plot(val_losses, label='Validation Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
     plt.title('Training vs. Validation Loss')
     plt.savefig("loss_plot.jpg")
 
