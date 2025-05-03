@@ -14,6 +14,7 @@ from torchvision import transforms, datasets
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, random_split
+import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
 
 # =============================================================================
@@ -29,7 +30,6 @@ transforms.Normalize(mean=[0.485, 0.456, 0.406],  # ImageNet means
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
-
 # =============================================================================
 def train_model(train):
     val_ratio = 0.2
@@ -56,7 +56,7 @@ def train_model(train):
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
     
     # Training loop (the amount would need some testing)
-    for epoch in range(3):
+    for epoch in range(5):
         model.train()
         running_loss = 0.0
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}", unit="img"):
@@ -68,7 +68,7 @@ def train_model(train):
             loss.backward()
             optimizer.step()
             
-            running_loss += loss.item()
+            running_loss += loss.detach().item()
         # Calculate training loss
         avg_train_loss = running_loss / len(train_loader)
         print(f"Epoch {epoch+1}, Training Loss: {avg_train_loss:.4f}")
@@ -93,14 +93,26 @@ def train_model(train):
         avg_val_loss = val_loss / len(val_loader)
         val_accuracy = correct / total * 100
         print(f"Epoch {epoch+1}, Validation Loss: {avg_val_loss:.4f}, Validation Accuracy: {val_accuracy:.2f}%")
-    
+        
+        train_losses.append(avg_train_loss)
+        val_losses.append(avg_val_loss)
     print("Training finished")
+
     try:
         save_path = "classifier_model.pth"
         torch.save(model.state_dict(), save_path)
         print(f"Model saved as {save_path}")
     except Exception as e:
         print(f"Error saving model: {e}")
+
+def loss_graph():
+    plt.ioff()
+    plt.plot(train_losses, label='Training Loss')
+    plt.plot(val_losses, label='Validation Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training vs. Validation Loss')
+    plt.savefig("loss_plot.jpg")
 
 # =============================================================================
 def testing_traindataset(train, saved_model):

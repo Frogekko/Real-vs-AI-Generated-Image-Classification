@@ -8,7 +8,7 @@ Remember to change the input_folder, output_folder and file_path so it fits to w
 """
 from preprocessing import resizer
 from bad_img_detector import bad_images, bad_img_lsit
-from model_training_testing import train_model, testing_testdataset, testing_traindataset
+from model_training_testing import train_model, testing_testdataset, testing_traindataset, loss_graph
 
 # input_folder and output_folder will be the directory containing the images to resize
 def prepmain():
@@ -87,6 +87,7 @@ def prepmain():
                 print("1. Train the model")
                 print("2. Use the model on the train dataset")
                 print("3. Use the model on the test dataset")
+                print("4. Show Loss graph")
                 print("0. Exit")
                 sec_choice = input("Enter your choice as int: ")
                 if sec_choice == "1":
@@ -100,6 +101,8 @@ def prepmain():
                     train = 'C:/Users/Fredrik/MLEksamen/resized_test/'
                     saved_model = 'F:/gitkraken/Real-vs-AI-Generated-Image-Classification/fredrik/resnet18/classifier_model.pth'
                     testing_traindataset(train, saved_model)
+                elif sec_choice == "4":
+                    loss_graph()
                 elif sec_choice == "0":
                     break
         elif choice == "0":
