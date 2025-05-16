@@ -1,0 +1,12 @@
+C:/Users/Fredrik/MLEksamen/train/real\0038.jpg
+C:/Users/Fredrik/MLEksamen/train/real\12094.jpg
+C:/Users/Fredrik/MLEksamen/train/real\13021.jpg
+C:/Users/Fredrik/MLEksamen/train/real\15963.jpg
+C:/Users/Fredrik/MLEksamen/train/real\16011.jpg
+C:/Users/Fredrik/MLEksamen/train/real\20964.jpg
+C:/Users/Fredrik/MLEksamen/train/real\21610.jpg
+C:/Users/Fredrik/MLEksamen/test/real\5197.jpg
+C:/Users/Fredrik/MLEksamen/test/real\5325.jpg
+C:/Users/Fredrik/MLEksamen/test/real\5879.jpg
+C:/Users/Fredrik/MLEksamen/train/fake\12854.jpg
+C:/Users/Fredrik/MLEksamen/train/fake\8022.jpg
