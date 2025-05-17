@@ -2,11 +2,9 @@
 """
 Created on Mon Apr 28 01:12:47 2025
 
-@author: Fredrik
+@author: Group 20
 
 Source: https://opensource.com/article/17/2/python-tricks-artists
-Going through the dataset testing if tha img can be opend and verifys that it is actually an image.
-Adding 
 """
 
 from os import listdir,path

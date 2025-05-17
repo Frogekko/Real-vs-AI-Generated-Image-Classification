@@ -7,6 +7,8 @@ Created on Tue Apr 29 12:55:27 2025
 Model training and testing script.
 """
 import os
+import random
+import numpy as np
 from tqdm import tqdm
 import torch
 from torchvision.models import resnet18, ResNet18_Weights
@@ -18,6 +20,13 @@ from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 
 # =============================================================================
+SEED = 42
+
+# Setting the seed for reproducibility
+torch.manual_seed(SEED)
+np.random.seed(SEED)
+random.seed(SEED)
+
 model = resnet18(weights=ResNet18_Weights.DEFAULT)
 model.fc = nn.Linear(model.fc.in_features, 2)
 
@@ -27,16 +36,29 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406],
                          std=[0.229, 0.224, 0.225])
 ])
+# The transform for the test dataset without any random augmentations for reproducibility
+transform_test = transforms.Compose([
+    # No RandomHorizontalFlip or other random augmentations here
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                         std=[0.229, 0.224, 0.225])
+])
 
+# Set the device to GPU if available, otherwise CPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
+# Setting the seed for reproducibility
+if torch.cuda.is_available():
+    torch.cuda.manual_seed(SEED)
+    torch.cuda.manual_seed_all(SEED)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 train_losses = []
 val_losses = []
 
 # =============================================================================
 def train_model(train):
-
     train_losses.clear()
     val_losses.clear()
 
@@ -47,11 +69,11 @@ def train_model(train):
     val_size = len(train_dataset) - train_size
     
     # The dataset is split into train and validation sets
-    torch.manual_seed(42)  # For reproducibility
+    torch.manual_seed(SEED)  # For reproducibility
     train_dataset, val_dataset = random_split(train_dataset, [train_size, val_size])
     
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=256, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=256, shuffle=False)
     
     # Printing to ensure that the folder structure is correct
     print(f"Loaded {len(train_dataset)} training data.")
@@ -59,7 +81,7 @@ def train_model(train):
     print(f"Classes found: {train_dataset.dataset.classes}")
     
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=1e-5, weight_decay=1e-5)
+    optimizer = optim.Adam(model.parameters(), lr=5e-5, weight_decay=1e-5)
     
     # Early stopping parameters
     patience = 3  # Number of epochs to wait before stopping if no improvement
@@ -129,10 +151,11 @@ def train_model(train):
             break
     
     print("Training finished")
+    loss_graph()
 
 # =============================================================================
 def testing_traindataset(train, saved_model):
-    train_dataset = datasets.ImageFolder(train, transform=transform)
+    train_dataset = datasets.ImageFolder(train, transform=transform_test)
     train_loader = DataLoader(train_dataset, batch_size=32, shuffle=False)
     
     model.load_state_dict(torch.load(saved_model, weights_only=False))
@@ -171,8 +194,7 @@ def testing_traindataset(train, saved_model):
 
 # =============================================================================
 def testing_testdataset(test_data, saved_model):   
-    # Loading the dataset from their respective image folder.
-    test_dataset = datasets.ImageFolder(test_data, transform=transform)
+    test_dataset = datasets.ImageFolder(test_data, transform=transform_test)
     test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
     
     model.load_state_dict(torch.load(saved_model, weights_only=False))
@@ -214,8 +236,6 @@ def loss_graph():
     plt.ioff()
     plt.plot(train_losses, label='Training Loss')
     plt.plot(val_losses, label='Validation Loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training vs. Validation Loss')

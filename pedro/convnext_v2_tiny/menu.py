@@ -8,7 +8,7 @@ Remember to change the input_folder, output_folder and file_path so it fits to w
 """
 from preprocessing import resizer
 from bad_img_detector import bad_images, bad_img_lsit
-from model_training_testing import train_model, testing_testdataset, testing_traindataset
+from model_training_testing import train_model, testing_testdataset, testing_traindataset, loss_graph
 
 # input_folder and output_folder will be the directory containing the images to resize
 def prepmain():
@@ -87,22 +87,25 @@ def prepmain():
                 print("1. Train the model")
                 print("2. Use the model on the train dataset")
                 print("3. Use the model on the test dataset")
+                print("4. Show Loss graph")
                 print("0. Exit")
                 sec_choice = input("Enter your choice as a number: ")
                 if sec_choice == "1":
-                    train = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train'
+                    train = '~/Documents/03 - University/03 - Datasets/Real-vs-AI-Generated-Image-Classification/resized_train'
                     train_model(train)
                 elif sec_choice == "2":
-                    train = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train'
-                    saved_model = 'C:/Users/p2fre/03 - University/03 - Class Repositories/eksamen_ml/Real-vs-AI-Generated-Image-Classification/pedro/convnext_v2_tiny/classifier_model.pth'
+                    train = '~/Documents/03 - University/03 - Datasets/Real-vs-AI-Generated-Image-Classification/resized_train'
+                    saved_model = 'classifier_model.pth'
                     testing_testdataset(train, saved_model)
                 elif sec_choice == "3":
-                    test_data = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_test'
-                    saved_model = 'C:/Users/p2fre/03 - University/03 - Class Repositories/eksamen_ml/Real-vs-AI-Generated-Image-Classification/pedro/convnext_v2_tiny/classifier_model.pth'
+                    test_data = '~/Documents/03 - University/03 - Datasets/Real-vs-AI-Generated-Image-Classification/resized_test'
+                    saved_model = 'classifier_model.pth'
                     testing_traindataset(test_data, saved_model)
+                elif sec_choice == "4":
+                    loss_graph()
                 elif sec_choice == "0":
                     break
         elif choice == "0":
             break
-        
+
 prepmain()

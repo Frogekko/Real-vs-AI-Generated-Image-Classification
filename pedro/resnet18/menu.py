@@ -91,15 +91,15 @@ def prepmain():
                 print("0. Exit")
                 sec_choice = input("Enter your choice as a number: ")
                 if sec_choice == "1":
-                    train = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train'
+                    train = '~/Documents/03 - University/03 - Datasets/Real-vs-AI-Generated-Image-Classification/resized_train'
                     train_model(train)
                 elif sec_choice == "2":
-                    train = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_train'
-                    saved_model = 'C:/Users/p2fre/03 - University/03 - Class Repositories/eksamen_ml/Real-vs-AI-Generated-Image-Classification/pedro/resnet18/classifier_model.pth'
+                    train = '~/Documents/03 - University/03 - Datasets/Real-vs-AI-Generated-Image-Classification/resized_train'
+                    saved_model = 'classifier_model.pth'
                     testing_testdataset(train, saved_model)
                 elif sec_choice == "3":
-                    test_data = 'C:/Users/p2fre/.cache/kagglehub/datasets/tristanzhang32/ai-generated-images-vs-real-images/versions/2/resized_test'
-                    saved_model = 'C:/Users/p2fre/03 - University/03 - Class Repositories/eksamen_ml/Real-vs-AI-Generated-Image-Classification/pedro/resnet18/classifier_model.pth'
+                    test_data = '~/Documents/03 - University/03 - Datasets/Real-vs-AI-Generated-Image-Classification/resized_test'
+                    saved_model = 'classifier_model.pth'
                     testing_traindataset(test_data, saved_model)
                 elif sec_choice == "4":
                     loss_graph()
@@ -107,5 +107,5 @@ def prepmain():
                     break
         elif choice == "0":
             break
-        
+
 prepmain()

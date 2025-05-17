@@ -2,7 +2,8 @@
 """
 Created on Sun Apr 27 23:14:19 2025
 
-@author: Fredrik
+@author: Group 20
+Script to resize images in a folder to a specified size.
 """
 import os
 from PIL import Image, UnidentifiedImageError
