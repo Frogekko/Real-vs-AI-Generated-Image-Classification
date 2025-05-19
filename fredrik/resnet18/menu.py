@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Apr 29 12:10:12 2025
-
-@author: Fredrik
-
-Remember to change the input_folder, output_folder and file_path so it fits to where you have saved the dataset
-"""
 from preprocessing import resizer
 from bad_img_detector import bad_images, bad_img_lsit
 from model_training_testing import train_model, testing_testdataset, testing_traindataset, loss_graph

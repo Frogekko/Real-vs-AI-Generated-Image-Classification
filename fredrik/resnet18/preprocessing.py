@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Apr 27 23:14:19 2025
 
-@author: Fredrik
-This script resizes images in a specified input folder and saves them to an output folder.
-"""
 import os
 from PIL import Image, UnidentifiedImageError
 from tqdm import tqdm

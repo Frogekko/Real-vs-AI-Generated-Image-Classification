@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Apr 29 12:55:27 2025
 
-@author: Fredrik
-
-Model training and testing script.
-"""
 import os
 from tqdm import tqdm
 import torch
