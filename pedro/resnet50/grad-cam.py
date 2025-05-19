@@ -1,12 +1,12 @@
 # Grad-CAM
-# gradcam_visualizer.py
+# This script implements Grad-CAM (Gradient-weighted Class Activation Mapping) to visualize the regions of an image that contribute most to the model's decision.
 import os
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 from PIL import Image
-from torchvision.models import resnet18, ResNet18_Weights
+from torchvision.models import resnet50, ResNet50_Weights
 from torchvision import transforms
 
 model_path = "classifier_model.pth"
@@ -14,15 +14,14 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load trained model
 def load_model(model_path):
-    model = resnet18(weights=ResNet18_Weights.DEFAULT)
+    model = resnet50(weights=ResNet50_Weights.DEFAULT)
     model.fc = torch.nn.Linear(model.fc.in_features, 2)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.to(device)
     model.eval()
     return model
 
-# Grad-CAM implementation
-# 
+# This class is used to compute the Grad-CAM heatmap for a given model and target layer
 class GradCAM:
     # Purposes of this function is to initialize the class and the model and the specific convolutional layer from which to extract features and gradients
     def __init__(self, model, target_layer):
@@ -32,7 +31,7 @@ class GradCAM:
         self.activations = None
         # Hooks are used by pytorch to intercept the data flowing through a layer during forward and backward passes
         target_layer.register_forward_hook(self.save_activation) # Saves activations to feature maps
-        target_layer.register_backward_hook(self.save_gradient) # Saves gradients to target class
+        target_layer.register_full_backward_hook(self.save_gradient) # Saves gradients to target class
 
     # Stores the output of the target_layer during the forward pass
     def save_activation(self, module, input, output):
@@ -70,7 +69,7 @@ def overlay_heatmap(img, heatmap):
     return cv2.cvtColor(superimposed_img.astype(np.uint8), cv2.COLOR_BGR2RGB) # Converts the image back to RGB and ready to be displayed with matplotlib
 
 # Main Grad-CAM runner
-# run_gradcam function executes the full grad-cam pipeline
+# Run_gradcam function executes the full grad-cam pipeline
 def run_gradcam(img_path, model_path="classifier_model.pth"):
     # Define normalization transform only
     transform = transforms.Compose([
@@ -87,6 +86,7 @@ def run_gradcam(img_path, model_path="classifier_model.pth"):
     # Open image
     img = Image.open(img_path).convert('RGB')
     input_tensor = transform(img).unsqueeze(0)
+    input_tensor = input_tensor.to(device)
 
     # Generate heatmap and overlay
     heatmap = cam.generate_heatmap(input_tensor)
@@ -98,12 +98,13 @@ def run_gradcam(img_path, model_path="classifier_model.pth"):
     plt.title("Grad-CAM Visualization of attention")
     plt.show()
 
-# Promps the user to choose the folder and image number to check the 
+# Promps the user to choose the folder and image number to check the grad-cam
 if __name__ == "__main__":
-    file_name = input("Whiche folder do you whant to test, real or fake? (real/fake) ").lower()
-    image_nb = input("Which image do you whant to check? (int) ")
+    file_name = input("Which folder do you want to test, real or fake? (real/fake) ").lower()
+    image_nb = input("Which image do you want to check? (For example 0001, 0002, etc) ")
     image_type = ('.jpg', '.jpeg', '.png')
-    file_path = f"F:/old_repo/Resized/resized_test/resized_test/resized_{file_name}"  # Change this to your fitting folder path
+    base_path = f"~/Documents/03 - University/03 - Datasets/Real-vs-AI-Generated-Image-Classification/resized_test/resized_{file_name}"  # Change this to fit your folder path
+    file_path = os.path.expanduser(base_path)
 
     found = False
     for ext in image_type:
