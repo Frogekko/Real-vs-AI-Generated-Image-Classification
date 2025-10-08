@@ -136,7 +136,8 @@ All operations can be managed through the `menu.py` script. Before running, ensu
 
 ---
 
-👥 Contributors
+## 👥 Contributors
+
 This project was developed as a collaborative effort by:
 * Fredrik
 * Pedro
