@@ -23,7 +23,7 @@ All models performed well, but modern architectures demonstrated superior perfor
 ### Top Model Performance (ConvNeXtV2-Base)
 The ConvNeXtV2-Base model not only achieved the highest accuracy but also had the lowest number of critical errors (misclassifying fake images as real), making it the most robust model for this task.
 
-![Loss Plot for ConvNeXtV2-Base](./model_folders/convnext_v2_base/loss_plot.png)
+![Loss Plot for ConvNeXtV2-Base](./model_folders/convnext_v2_base/loss_plot.jpg)
 
 Here are the confusion matrix results from the test set, which contained 5,997 real and 6,000 fake images:
 
